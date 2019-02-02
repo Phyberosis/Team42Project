@@ -9,6 +9,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class team42Application {
     public static void main(String[] args) {
@@ -39,10 +41,17 @@ public class team42Application {
         FirebaseApp.initializeApp(options);
         Firestore db = FirestoreClient.getFirestore();
 
-        team42Application getQuote = new team42Application();
-        //HashMap<String, String> quote = getQuote.getQuoteFromHTTP();
-        ApiFuture<WriteResult> future = db.collection("users").document("4Mh6jV9qTb4g0WMYAFcZ")
-                .set("Tony");
+//        team42Application getQuote = new team42Application();
+        HashMap<String, String> quote = new HashMap<>();
+        quote.put("won't", "is trash");
+        quote.put("Tony", "is trash");
+        ApiFuture<WriteResult> future = db.collection("test").document("testID")
+                .set(quote);
+        try {
+            System.out.println(future.get().getUpdateTime());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //public HashMap<String, String> getQuoteFromHTTP(){
